@@ -11,11 +11,22 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    // MARK: - Instance variables
     var window: UIWindow?
-
-
+    let m = DataModalManager()
+    
+    // MARK: - Lifecycle
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // Get a reference to the controller that is the app's entry point
+        let nav = window!.rootViewController as! UINavigationController
+        
+        // Get a reference to the first view controller
+        let tvc = nav.viewControllers[0] as! MyCatList
+        
+        // Pass the model object to the (table view) controller
+        tvc.m = m
+        
         return true
     }
 
