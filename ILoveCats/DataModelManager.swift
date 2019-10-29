@@ -39,4 +39,16 @@ class DataModalManager {
         return cats
     }
     
+    func catAdd(_ newItem: Cat) -> Cat? {
+        let localNewItem = newItem
+        if !newItem.catName.isEmpty && !newItem.ownerName.isEmpty && newItem.weightKg > 0 && !(newItem.rating < 0 || newItem.rating > 5) {
+            catPackage?.data.append(localNewItem)
+            catPackage?.count = catPackage?.data.count ?? 0
+            catPackage?.timestamp = Date()
+            
+            return catPackage?.data.last
+        }
+        return nil
+    }
+    
 }

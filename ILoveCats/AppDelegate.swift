@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = window!.rootViewController as! UINavigationController
         
         // Get a reference to the first view controller
-        let tvc = nav.viewControllers[0] as! MyCatList
+        let tvc = nav.viewControllers[0] as! CatList
         
         // Pass the model object to the (table view) controller
         tvc.m = m
