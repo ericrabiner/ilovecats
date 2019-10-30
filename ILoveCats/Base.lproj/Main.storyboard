@@ -335,6 +335,9 @@
                                 <rect key="frame" x="343" y="339" width="51" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Update"/>
+                                <connections>
+                                    <action selector="updatePhotoPressed:" destination="flL-Yr-cmN" eventType="touchUpInside" id="QuK-I2-SjG"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Update Cat Photo:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wa-1j-D94">
                                 <rect key="frame" x="20" y="341" width="176" height="27"/>
@@ -367,8 +370,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="catImage" destination="Gp6-mB-kon" id="e4w-RQ-fPr"/>
-                        <outlet property="catImageButton" destination="WoQ-CJ-bd5" id="gZ4-cO-tvm"/>
+                        <outlet property="catPhoto" destination="Gp6-mB-kon" id="ts9-Ye-qcG"/>
+                        <outlet property="catPhotoButton" destination="WoQ-CJ-bd5" id="ZnQ-KF-Cij"/>
                         <outlet property="catRating" destination="svP-I7-ohK" id="jGN-n2-kkN"/>
                         <outlet property="errorMessage" destination="oRK-48-Foz" id="VyU-TM-Uaf"/>
                         <outlet property="ownerName" destination="cWF-k1-HFD" id="4f5-LL-IEK"/>

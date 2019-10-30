@@ -64,6 +64,28 @@ class CatUpdated: Codable {
     }
 }
 
+class CatPhoto: Codable {
+    // MARK: - Data properties
+    var data = [CatPhotoData]()
+    
+    // MARK - Initializers
+    init(data: [CatPhotoData]) {
+        self.data = data
+    }
+    
+}
+
+class CatPhotoData: Codable {
+    var id: String
+    var url: String
+    
+    // MARK - Initializers
+    init(id: String, url: String) {
+        self.id = id
+        self.url = url
+    }
+}
+
 extension DateFormatter {
     static let iso8601Full: DateFormatter = {
         let formatter = DateFormatter()
