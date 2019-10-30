@@ -22,7 +22,6 @@ class CatList: UITableViewController, CatAddDelegate {
         
         // Listen for a notification that new data is available for the list
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: Notification.Name("WebApiDataIsReady"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: Notification.Name("CatPostWasSuccessful"), object: nil)
         
         // Fetch the data
         m.catGetAll()
@@ -35,12 +34,6 @@ class CatList: UITableViewController, CatAddDelegate {
         tableView.reloadData()
         
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        items = m.catGetData()
-//        tableView.reloadData()
-//    }
     
     func addTaskDidCancel(_ controller: UIViewController) {
         dismiss(animated: true, completion: nil)
@@ -77,13 +70,11 @@ class CatList: UITableViewController, CatAddDelegate {
             let selectedData = items[indexPath!.row]
             vc.item = selectedData
             vc.m = m
-            //vc.title = "Cat Scene"
         }
         
         if segue.identifier == "toCatAdd" {
             let nav = segue.destination as! UINavigationController
             let vc = nav.viewControllers[0] as! CatAdd
-            //vc.title = "Add Cat"
             vc.m = m
             vc.delegate = self
         }

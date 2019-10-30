@@ -46,6 +46,9 @@ class CatScene: UIViewController, CatEditDelegate {
     
     func addTask(_ controller: UIViewController, didSave item: CatUpdated) {
         m.catPut(item)
+        self.item.ownerName = item.ownerName
+        self.item.rating = item.rating
+        self.item.photoUrl = item.photoUrl
         dismiss(animated: true, completion: nil)
     }
     

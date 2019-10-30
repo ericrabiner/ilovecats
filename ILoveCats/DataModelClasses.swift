@@ -64,17 +64,6 @@ class CatUpdated: Codable {
     }
 }
 
-class CatPhoto: Codable {
-    // MARK: - Data properties
-    var data = [CatPhotoData]()
-    
-    // MARK - Initializers
-    init(data: [CatPhotoData]) {
-        self.data = data
-    }
-    
-}
-
 class CatPhotoData: Codable {
     var id: String
     var url: String
@@ -97,8 +86,8 @@ extension DateFormatter {
     }()
 }
 
-extension Float {
-    var clean: String {
-        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
-    }
-}
+//extension Float {
+//    var clean: String {
+//        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
+//    }
+//}

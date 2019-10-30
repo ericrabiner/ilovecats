@@ -122,6 +122,10 @@ class WebApiRequest {
                 
                 // The request was successful, and deserialization was successful.
                 // So, call the closure completion
+                
+                //Dump
+                //dump(results)
+                
                 completion(results!)
             }
             

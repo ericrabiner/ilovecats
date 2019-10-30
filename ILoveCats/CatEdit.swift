@@ -21,6 +21,8 @@ class CatEdit: UIViewController {
     weak var delegate: CatEditDelegate?
     var m: DataModalManager!
     var item: Cat!
+    var catUpdated: CatUpdated?
+    var updatedImage = false
     
     // MARK: - Outlets
     @IBOutlet weak var ownerName: UITextField!
@@ -56,7 +58,7 @@ class CatEdit: UIViewController {
     }
     
     @objc func updateImageUI() {
-        guard let imageURL = URL(string: m.catPhoto!.data[0].url) else { return }
+        guard let imageURL = URL(string: m.catPhotoData!.url) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             let image = UIImage(data: imageData)
@@ -68,6 +70,7 @@ class CatEdit: UIViewController {
     
     // MARK - Actions
     @IBAction func updatePhotoPressed(_ sender: Any) {
+        updatedImage = true
         m.catGetImage(item.breedId)
     }
     
@@ -92,11 +95,16 @@ class CatEdit: UIViewController {
         
         // Create a cat Object
         errorMessage.text = "Attempting to save..."
-        
-        let newCat = CatUpdated(_id: item._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: "https://placekitten.com/300/200")
+    
+        if updatedImage {
+            catUpdated = CatUpdated(_id: item._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: m.catPhotoData!.url)
+        }
+        else {
+            catUpdated = CatUpdated(_id: item._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: "https://placekitten.com/300/200")
+        }
         
         // Send the request
-        m.catPut(newCat)
+        m.catPut(catUpdated!)
         
     }
 

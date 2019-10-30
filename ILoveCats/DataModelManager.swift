@@ -13,7 +13,7 @@ class DataModalManager {
     // MARK: Data properties
     var catPackage: CatPackage?
     var cats = [Cat]()
-    var catPhoto: CatPhoto?
+    var catPhotoData: CatPhotoData?
   
     let breedString = "abys - Abyssinian, aege - Aegean, abob - American Bobtail, acur - American Curl, asho - American Shorthair, awir - American Wirehair, amau - Arabian Mau, amis - Australian Mist, bali - Balinese, bamb - Bambino, beng - Bengal, birm - Birman, bomb - Bombay, bslo - British Longhair, bsho - British Shorthair, bure - Burmese, buri - Burmilla, cspa - California Spangled, ctif - Chantilly-Tiffany, char - Chartreux, chau - Chausie, chee - Cheetoh, csho - Colorpoint Shorthair, crex - Cornish Rex, cymr - Cymric, cypr - Cyprus, drex - Devon Rex, dons - Donskoy, lihu - Dragon Li, emau - Egyptian Mau, ebur - European Burmese, esho - Exotic Shorthair, hbro - Havana Brown, hima - Himalayan, jbob - Japanese Bobtail, java - Javanese, khao - Khao Manee, kora - Korat, kuri - Kurilian, lape - LaPerm, mcoo - Maine Coon, mala - Malayan, manx - Manx, munc - Munchkin, nebe - Nebelung, norw - Norwegian Forest Cat, ocic - Ocicat, orie - Oriental, pers - Persian, pixi - Pixie-bob, raga - Ragamuffin, ragd - Ragdoll, rblu - Russian Blue, sava - Savannah, sfol - Scottish Fold, srex - Selkirk Rex, siam - Siamese, sibe - Siberian, sing - Singapura, snow - Snowshoe, soma - Somali, sphy - Sphynx, tonk - Tonkinese, toyg - Toyger, tang - Turkish Angora, tvan - Turkish Van, ycho - York Chocolate"
     
@@ -68,6 +68,9 @@ class DataModalManager {
         
         // Post a notification
         NotificationCenter.default.post(name: Notification.Name("CatPostWasSuccessful"), object: nil)
+        
+        catGetAll()
+        
     }
     
     // PUT request method
@@ -98,18 +101,18 @@ class DataModalManager {
         // Post a notification
         NotificationCenter.default.post(name: Notification.Name("CatPutWasSuccessful"), object: nil)
         
+        catGetAll()
         
     }
     
     // GET request method - CAT API
     func catGetImage(_ catBreed: String) {
-
         let request = WebApiRequest()
         request.urlBase = "https://api.thecatapi.com/v1/images/search?breed_ids="
-        request.sendRequest(toUrlPath: "/\(catBreed)") { (result: [CatPhotoData]) in
+        request.httpMethod = "GET"
+        request.sendRequest(toUrlPath: "\(catBreed)") { (result: [CatPhotoData]) in
             
-            // Save the result in the manager property
-            self.catPhoto = CatPhoto(data: result)
+            self.catPhotoData = CatPhotoData(id: result[0].id, url: result[0].url)
 
             // Post a notification
             NotificationCenter.default.post(name: Notification.Name("CatPhotoIsReady"), object: nil)
