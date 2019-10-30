@@ -10,18 +10,26 @@ import Foundation
 
 class Cat : Codable {
     // MARK: - Data properties
-    var _id: String
+    var _id: String?
     var catName: String
     var ownerName: String
     var breedId: String
     var birthDate: Date
     var weightKg: Float
-    var rating: Float
+    var rating: Int
     var photoUrl: String
-//    var _version: Int
-//    var _created: Date
-//    var _createdby: String
-//    var _changed: Date
+    
+    // MARK - Initializers
+    init(catName: String, ownerName: String, breedId: String, birthDate: Date, weightKg: Float, rating: Int, photoUrl: String) {
+        self.catName = catName
+        self.ownerName = ownerName
+        self.breedId = breedId
+        self.birthDate = birthDate
+        self.weightKg = weightKg
+        self.rating = rating
+        self.photoUrl = photoUrl
+    }
+
 }
 
 class CatPackage: Codable {
@@ -40,6 +48,22 @@ class CatPackage: Codable {
     }
 }
 
+class CatUpdated: Codable {
+    // MARK: - Data properties
+    var _id: String
+    var ownerName: String
+    var rating: Int
+    var photoUrl: String
+    
+    // MARK - Initializers
+    init(_id: String, ownerName: String, rating: Int, photoUrl: String) {
+        self._id = _id
+        self.ownerName = ownerName
+        self.rating = rating
+        self.photoUrl = photoUrl
+    }
+}
+
 extension DateFormatter {
     static let iso8601Full: DateFormatter = {
         let formatter = DateFormatter()
@@ -49,4 +73,10 @@ extension DateFormatter {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }()
+}
+
+extension Float {
+    var clean: String {
+        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
+    }
 }

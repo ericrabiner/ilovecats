@@ -15,13 +15,13 @@ protocol CatAddDelegate: AnyObject {
     // Recommendation - change the type to match the actual item type
 }
 
-class CatAdd: UIViewController {
+class CatAdd: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     // MARK: - Instance Variables
     weak var delegate: CatAddDelegate?
     var m: DataModalManager!
-    let breedString = "abys - Abyssinian, aege - Aegean, abob - American Bobtail, acur - American Curl, asho - American Shorthair, awir - American Wirehair, amau - Arabian Mau, amis - Australian Mist, bali - Balinese, bamb - Bambino, beng - Bengal, birm - Birman, bomb - Bombay, bslo - British Longhair, bsho - British Shorthair, bure - Burmese, buri - Burmilla, cspa - California Spangled, ctif - Chantilly-Tiffany, char - Chartreux, chau - Chausie, chee - Cheetoh, csho - Colorpoint Shorthair, crex - Cornish Rex, cymr - Cymric, cypr - Cyprus, drex - Devon Rex, dons - Donskoy, lihu - Dragon Li, emau - Egyptian Mau, ebur - European Burmese, esho - Exotic Shorthair, hbro - Havana Brown, hima - Himalayan, jbob - Japanese Bobtail, java - Javanese, khao - Khao Manee, kora - Korat, kuri - Kurilian, lape - LaPerm, mcoo - Maine Coon, mala - Malayan, manx - Manx, munc - Munchkin, nebe - Nebelung, norw - Norwegian Forest Cat, ocic - Ocicat, orie - Oriental, pers - Persian, pixi - Pixie-bob, raga - Ragamuffin, ragd - Ragdoll, rblu - Russian Blue, sava - Savannah, sfol - Scottish Fold, srex - Selkirk Rex, siam - Siamese, sibe - Siberian, sing - Singapura, snow - Snowshoe, soma - Somali, sphy - Sphynx, tonk - Tonkinese, toyg - Toyger, tang - Turkish Angora, tvan - Turkish Van, ycho - York Chocolate"
-    
+    var breeds = [String]()
+    var postResult: Cat!
     
     // MARK: - Outlets
     @IBOutlet weak var ownerName: UITextField!
@@ -40,8 +40,32 @@ class CatAdd: UIViewController {
         errorMessage.text?.removeAll()
         catWeightLabel.text = "Weight: \(catWeight.value) kg"
         catBirthDate.datePickerMode = .date
-        let breeds = breedString.components(separatedBy: ", ")
-        print(breeds)
+        breeds = m.breedString.components(separatedBy: ", ")
+
+        self.catBreed.delegate = self
+        self.catBreed.dataSource = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: Notification.Name("CatPostWasSuccessful"), object: nil)
+    }
+    
+    @objc func updateUI() {
+        self.errorMessage.text = "Save was successful!"
+    }
+    
+    // Number of columns of data in catBreed picker
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // Number of rows of data in catBreed picker
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return breeds.count
+    }
+    
+    // The data in each row in catBreed picker
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        //var currentBreed = breeds[row]
+        return String(breeds[row].dropFirst(7))
     }
     
     // MARK: - Actions
@@ -55,8 +79,18 @@ class CatAdd: UIViewController {
     }
     
     @IBAction func savePressed(_ sender: UIBarButtonItem) {
+        
+        // Force keyboard to disappear
+        ownerName.resignFirstResponder()
+        catName.resignFirstResponder()
+        
         view.endEditing(false)
         errorMessage.text?.removeAll()
+        
+        // Three tasks:
+        // 1. Assemble the data, into an object
+        // 2. Create a custom "request" object
+        // 3. Perform the data task with the new request
         
         // Validation before saving
         if ownerName.text!.isEmpty {
@@ -68,11 +102,18 @@ class CatAdd: UIViewController {
             errorMessage.text = "Cat name cannot be empty."
             return
         }
-
         // Validation Passes here
         
-        // Create a friend Object
-//        errorMessage.text = "Attempting to save..."
+        // Create a cat Object
+        errorMessage.text = "Attempting to save..."
+ 
+        let newCat = Cat(catName: catName.text!, ownerName: ownerName.text!, breedId: String(breeds[catBreed.selectedRow(inComponent: 0)].prefix(4)), birthDate: catBirthDate.date, weightKg: catWeight.value, rating: catRating.selectedSegmentIndex + 1, photoUrl: "https://placekitten.com/300/200")
+        
+        // Send the request
+        m.catPostNew(newCat)
+        
+        //delegate?.addTask(self, didSave: newCat)
+        
 //        if pickedPhoto.image == nil {
 //            let newFriend = Friend(firstName: firstNameInput.text!, lastName: lastNameInput.text!, age: age, city: cityInput.text!, imageName: "")
 //            delegate?.addTask(self, didSave: newFriend)
