@@ -12,13 +12,14 @@ class CatList: UITableViewController, CatAddDelegate {
     
     // MARK: - Instance variables
     var m: DataModalManager!
-    var items = [Cat]()
+    var cats = [Cat]()
+    private var catPhotos = [String: Data]()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         //title = "Waiting for cats..."
-        items = m.catGetData()
+        cats = m.catGetData()
         
         // Listen for a notification that new data is available for the list
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: Notification.Name("WebApiDataIsReady"), object: nil)
@@ -29,8 +30,8 @@ class CatList: UITableViewController, CatAddDelegate {
     
     // Code that runs when the notification happens
     @objc func reloadTableView() {
-        title = "Cat List (\(self.m.catsCount()))"
-        items = m.catGetData()
+        cats = m.catGetData()
+        title = "Cat List (\(self.cats.count))"
         tableView.reloadData()
         
     }
@@ -44,21 +45,65 @@ class CatList: UITableViewController, CatAddDelegate {
     }
     
     // MARK: - Table view data source
+    // Row number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    // Row count
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return m.cats.count
+        return cats.count
     }
     
+    // Row contents
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "default", for: indexPath)
         // Configure the cell...
-        cell.textLabel?.text = m.cats[indexPath.row].catName
-        cell.detailTextLabel?.text = m.cats[indexPath.row].ownerName
+        cell.textLabel?.text = cats[indexPath.row].catName
+        cell.detailTextLabel?.text = cats[indexPath.row].ownerName
         
+        if let image = catPhotos[cats[indexPath.row].photoUrl] {
+            cell.imageView?.image = UIImage(data: image)
+        }
+        else {
+            if cats[indexPath.row].photoUrl.contains("https://") {
+                let photoFetch = URLSession.shared.dataTask(with: URL(string: cats[indexPath.row].photoUrl)!, completionHandler: {data, response, error in
+                    
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode)
+                        else {
+                            // Show the URL and response status code in the debug console
+                            if let httpResponse = response as? HTTPURLResponse {
+                                print("URL: \(httpResponse.url!.path )\nStatus code: \(httpResponse.statusCode)")
+                            }
+                            return
+                    }
+                    
+                    if let mimeType = httpResponse.mimeType,
+                        mimeType.starts(with: "image/"),
+                        let results = data {
+                        
+                        DispatchQueue.main.async {
+                            cell.imageView?.image = UIImage(data: results)
+                            self.catPhotos[self.cats[indexPath.row].photoUrl] = results
+                        }
+                    }
+                })
+                photoFetch.resume()
+            }
+        }
+
         return cell
+    }
+    
+    // Row Height
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
 
     // MARK: - Navigation
@@ -66,8 +111,8 @@ class CatList: UITableViewController, CatAddDelegate {
         if segue.identifier == "toCatScene" {
             let vc = segue.destination as! CatScene
             let indexPath = tableView.indexPath(for: sender as! UITableViewCell)
-            let selectedData = items[indexPath!.row]
-            vc.item = selectedData
+            let selectedData = cats[indexPath!.row]
+            vc.cat = selectedData
             vc.m = m
         }
         

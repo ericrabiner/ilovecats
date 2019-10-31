@@ -20,7 +20,7 @@ class CatEdit: UIViewController {
     // MARK: - Instance variables
     weak var delegate: CatEditDelegate?
     var m: DataModalManager!
-    var item: Cat!
+    var cat: Cat!
     var catUpdated: CatUpdated?
     var updatedImage = false
     
@@ -36,16 +36,18 @@ class CatEdit: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        ownerName.text = item.ownerName
-        catRating.selectedSegmentIndex = item.rating - 1
+        ownerName.text = cat.ownerName
+        catRating.selectedSegmentIndex = cat.rating - 1
         errorMessage.text?.removeAll()
         
-        guard let imageURL = URL(string: item.photoUrl) else { return }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            let image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                self.catPhoto.image = image
+        if cat.photoUrl.contains("https://") {
+            guard let imageURL = URL(string: cat.photoUrl) else { return }
+            DispatchQueue.global().async {
+                guard let imageData = try? Data(contentsOf: imageURL) else { return }
+                let image = UIImage(data: imageData)
+                DispatchQueue.main.async {
+                    self.catPhoto.image = image
+                }
             }
         }
         
@@ -71,7 +73,7 @@ class CatEdit: UIViewController {
     // MARK - Actions
     @IBAction func updatePhotoPressed(_ sender: Any) {
         updatedImage = true
-        m.catGetImage(item.breedId)
+        m.catGetImage(cat.breedId)
     }
     
     @IBAction func cancelPressed(_ sender: Any) {
@@ -97,10 +99,10 @@ class CatEdit: UIViewController {
         errorMessage.text = "Attempting to save..."
     
         if updatedImage {
-            catUpdated = CatUpdated(_id: item._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: m.catPhotoData!.url)
+            catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: m.catPhotoData!.url)
         }
         else {
-            catUpdated = CatUpdated(_id: item._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: "https://placekitten.com/300/200")
+            catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: "https://placekitten.com/300/200")
         }
         
         // Send the request
