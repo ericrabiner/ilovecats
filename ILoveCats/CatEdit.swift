@@ -98,7 +98,7 @@ class CatEdit: UIViewController {
         // Create a cat Object
         errorMessage.text = "Attempting to save..."
     
-        if updatedImage {
+        if (m.catData != nil) {
             catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: m.catData!.url)
         }
         else {
