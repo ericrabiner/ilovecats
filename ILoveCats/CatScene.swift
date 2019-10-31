@@ -13,6 +13,8 @@ class CatScene: UIViewController, CatEditDelegate {
     // MARK: - Instance variables
     var m: DataModalManager!
     var item: Cat!
+    var breeds = [String]()
+    
     // MARK: - Outlets
     @IBOutlet weak var catName: UILabel!
     @IBOutlet weak var ownerName: UILabel!
@@ -27,7 +29,16 @@ class CatScene: UIViewController, CatEditDelegate {
         super.viewDidLoad()
         catName.text = "Meet \(item.catName)"
         ownerName.text = item.ownerName
-        breed.text = item.breedId
+        
+        breeds = m.breedString.components(separatedBy: ", ")
+        var found = false
+        for breed in breeds {
+            if item.breedId == breed.prefix(4) && !found {
+                self.breed.text = String(breed.dropFirst(7))
+                found = true
+            }
+        }
+        
         weight.text = String(item.weightKg)
         rating.text = String(item.rating)
 
