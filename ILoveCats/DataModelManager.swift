@@ -125,7 +125,7 @@ class DataModalManager {
         request.sendRequest(toUrlPath: "\(catBreedId)") { (result: [CatData]) in
             
             self.catData = CatData(id: result[0].id, url: result[0].url, breeds: result[0].breeds)
-            self.catBreedData = CatBreedData(name: result[0].breeds[0].name, description: result[0].breeds[0].description, temperment: result[0].breeds[0].temperment)
+            self.catBreedData = CatBreedData(name: result[0].breeds[0].name, description: result[0].breeds[0].description, temperament: result[0].breeds[0].temperament)
             
             // Post a notification
             NotificationCenter.default.post(name: Notification.Name("CatBreedIsReady"), object: nil)

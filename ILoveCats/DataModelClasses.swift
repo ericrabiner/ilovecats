@@ -80,13 +80,13 @@ class CatData: Codable {
 class CatBreedData: Codable {
     var name: String
     var description: String
-    var temperment: String
+    var temperament: String
     
     // MARK - Initializers
-    init(name: String, description: String, temperment: String) {
+    init(name: String, description: String, temperament: String) {
         self.name = name
         self.description = description
-        self.temperment = temperment
+        self.temperament = temperament
     }
 }
 
