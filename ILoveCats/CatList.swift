@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CatList: UITableViewController, CatAddDelegate {
+class CatList: UITableViewController, CatAddDelegate, CatDetailDelegate {
     
     // MARK: - Instance variables
     var m: DataModalManager!
@@ -44,6 +44,10 @@ class CatList: UITableViewController, CatAddDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    func detailTaskDidFinish(_ controller: UIViewController, didSave item: Cat) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
     // Row number of sections
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -66,6 +70,9 @@ class CatList: UITableViewController, CatAddDelegate {
             cell.imageView?.image = UIImage(data: image)
         }
         else {
+            
+            cell.imageView?.image = UIImage(named: "catPlaceholder")
+            
             if cats[indexPath.row].photoUrl.contains("https://") {
                 let photoFetch = URLSession.shared.dataTask(with: URL(string: cats[indexPath.row].photoUrl)!, completionHandler: {data, response, error in
                     
@@ -121,6 +128,14 @@ class CatList: UITableViewController, CatAddDelegate {
             let vc = nav.viewControllers[0] as! CatAdd
             vc.m = m
             vc.delegate = self
+        }
+        
+        if segue.identifier == "toCatDetail" {
+            let vc = segue.destination as! CatDetail
+            let indexPath = tableView.indexPath(for: sender as! UITableViewCell)
+            let selectedData = cats[indexPath!.row]
+            vc.cat = selectedData
+            vc.m = m
         }
     }
 }

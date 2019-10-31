@@ -9,8 +9,8 @@
 import UIKit
 
 protocol CatEditDelegate: AnyObject {
-    func addTaskDidCancel(_ controller: UIViewController)
-    func addTask(_ controller: UIViewController, didSave item: CatUpdated)
+    func editTaskDidCancel(_ controller: UIViewController)
+    func editTask(_ controller: UIViewController, didSave item: CatUpdated)
     // In general, the item type is suggested as Any, which you can cast, or...
     // Recommendation - change the type to match the actual item type
 }
@@ -77,7 +77,7 @@ class CatEdit: UIViewController {
     }
     
     @IBAction func cancelPressed(_ sender: Any) {
-        delegate?.addTaskDidCancel(self)
+        delegate?.editTaskDidCancel(self)
     }
     
     @IBAction func savePressed(_ sender: Any) {
@@ -107,7 +107,7 @@ class CatEdit: UIViewController {
         
         // Send the request
         m.catPut(catUpdated!)
-        delegate?.addTask(self, didSave: catUpdated!)
+        delegate?.editTask(self, didSave: catUpdated!)
         
     }
 

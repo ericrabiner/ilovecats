@@ -52,6 +52,11 @@ class CatAdd: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         self.errorMessage.text = "Save was successful!"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        ownerName.becomeFirstResponder()
+    }
+    
     // Number of columns of data in catBreed picker
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1

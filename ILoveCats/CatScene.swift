@@ -58,11 +58,11 @@ class CatScene: UIViewController, CatEditDelegate {
         }
     }
     
-    func addTaskDidCancel(_ controller: UIViewController) {
+    func editTaskDidCancel(_ controller: UIViewController) {
         dismiss(animated: true, completion: nil)
     }
     
-    func addTask(_ controller: UIViewController, didSave item: CatUpdated) {
+    func editTask(_ controller: UIViewController, didSave item: CatUpdated) {
         cat.ownerName = item.ownerName
         cat.rating = item.rating
         cat.photoUrl = item.photoUrl

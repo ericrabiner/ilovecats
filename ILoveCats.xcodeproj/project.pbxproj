@@ -20,6 +20,7 @@
 		07E81292235F550400B689F4 /* CatScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E81291235F550400B689F4 /* CatScene.swift */; };
 		07EA066423687C7D00605304 /* CatList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EA066323687C7D00605304 /* CatList.swift */; };
 		07EA066623687D5200605304 /* CatAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EA066523687D5200605304 /* CatAdd.swift */; };
+		B5AA3550236B26210095ED3A /* CatDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AA354F236B26210095ED3A /* CatDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		07E81291235F550400B689F4 /* CatScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatScene.swift; sourceTree = "<group>"; };
 		07EA066323687C7D00605304 /* CatList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatList.swift; sourceTree = "<group>"; };
 		07EA066523687D5200605304 /* CatAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAdd.swift; sourceTree = "<group>"; };
+		B5AA354F236B26210095ED3A /* CatDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				07E8128D235F2E0400B689F4 /* DataModelManager.swift */,
 				07E8128F235F312600B689F4 /* WebApiRequest.swift */,
 				07EA066523687D5200605304 /* CatAdd.swift */,
+				B5AA354F236B26210095ED3A /* CatDetail.swift */,
 				07E6BDCE23691715003825D6 /* CatEdit.swift */,
 				07EA066323687C7D00605304 /* CatList.swift */,
 				07E81291235F550400B689F4 /* CatScene.swift */,
@@ -274,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5AA3550236B26210095ED3A /* CatDetail.swift in Sources */,
 				07E8128C235F2DEE00B689F4 /* DataModelClasses.swift in Sources */,
 				07EA066623687D5200605304 /* CatAdd.swift in Sources */,
 				07E81290235F312600B689F4 /* WebApiRequest.swift in Sources */,
@@ -458,13 +462,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ILoveCats/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sict.ILoveCats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -475,13 +480,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ILoveCats/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sict.ILoveCats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
