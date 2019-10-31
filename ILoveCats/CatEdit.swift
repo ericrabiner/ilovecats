@@ -60,7 +60,7 @@ class CatEdit: UIViewController {
     }
     
     @objc func updateImageUI() {
-        guard let imageURL = URL(string: m.catPhotoData!.url) else { return }
+        guard let imageURL = URL(string: m.catData!.url) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             let image = UIImage(data: imageData)
@@ -99,7 +99,7 @@ class CatEdit: UIViewController {
         errorMessage.text = "Attempting to save..."
     
         if updatedImage {
-            catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: m.catPhotoData!.url)
+            catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: m.catData!.url)
         }
         else {
             catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: "https://placekitten.com/300/200")

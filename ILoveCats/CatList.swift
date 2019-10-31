@@ -9,7 +9,7 @@
 import UIKit
 
 class CatList: UITableViewController, CatAddDelegate, CatDetailDelegate {
-    
+   
     // MARK: - Instance variables
     var m: DataModalManager!
     var cats = [Cat]()
@@ -44,7 +44,7 @@ class CatList: UITableViewController, CatAddDelegate, CatDetailDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    func detailTaskDidFinish(_ controller: UIViewController, didSave item: Cat) {
+    func detailTaskDidFinish(_ controller: UIViewController) {
         dismiss(animated: true, completion: nil)
     }
     
@@ -131,11 +131,13 @@ class CatList: UITableViewController, CatAddDelegate, CatDetailDelegate {
         }
         
         if segue.identifier == "toCatDetail" {
-            let vc = segue.destination as! CatDetail
+            let nav = segue.destination as! UINavigationController
+            let vc = nav.viewControllers[0] as! CatDetail
             let indexPath = tableView.indexPath(for: sender as! UITableViewCell)
             let selectedData = cats[indexPath!.row]
             vc.cat = selectedData
             vc.m = m
+            vc.delegate = self
         }
     }
 }

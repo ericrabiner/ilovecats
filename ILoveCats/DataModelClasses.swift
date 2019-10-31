@@ -64,14 +64,29 @@ class CatUpdated: Codable {
     }
 }
 
-class CatPhotoData: Codable {
+class CatData: Codable {
     var id: String
     var url: String
+    var breeds: [CatBreedData]
     
     // MARK - Initializers
-    init(id: String, url: String) {
+    init(id: String, url: String, breeds: [CatBreedData]) {
         self.id = id
         self.url = url
+        self.breeds = breeds
+    }
+}
+
+class CatBreedData: Codable {
+    var name: String
+    var description: String
+    var temperment: String
+    
+    // MARK - Initializers
+    init(name: String, description: String, temperment: String) {
+        self.name = name
+        self.description = description
+        self.temperment = temperment
     }
 }
 
