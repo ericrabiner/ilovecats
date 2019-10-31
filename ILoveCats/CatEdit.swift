@@ -104,6 +104,7 @@ class CatEdit: UIViewController {
         }
         
         // Send the request
+        m.catPut(catUpdated!)
         delegate?.addTask(self, didSave: catUpdated!)
         
     }

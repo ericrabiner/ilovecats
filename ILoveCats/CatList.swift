@@ -40,7 +40,6 @@ class CatList: UITableViewController, CatAddDelegate {
     }
     
     func addTask(_ controller: UIViewController, didSave item: Cat) {
-        m.catPostNew(item)
         dismiss(animated: true, completion: nil)
     }
     
