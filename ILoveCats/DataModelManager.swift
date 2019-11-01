@@ -34,7 +34,7 @@ class DataModalManager {
             
             // Save the result in the manager property
             self.catPackage = CatPackage(timestamp: Date(), version: "1.0.0", count: result.count, data: result)
-            self.cats = self.catPackage!.data
+            self.cats = self.catPackage!.data.sorted(by: { (c1: Cat, c2: Cat) -> Bool in return c1.catName.lowercased() < c2.catName.lowercased() })
             
             // Post a notification
             NotificationCenter.default.post(name: Notification.Name("WebApiDataIsReady"), object: nil)

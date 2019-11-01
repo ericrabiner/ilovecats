@@ -22,7 +22,7 @@ class CatEdit: UIViewController {
     var m: DataModalManager!
     var cat: Cat!
     var catUpdated: CatUpdated?
-    var updatedImage = false
+    var catImageUrl: String = ""
     
     // MARK: - Outlets
     @IBOutlet weak var ownerName: UITextField!
@@ -65,6 +65,7 @@ class CatEdit: UIViewController {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             let image = UIImage(data: imageData)
             DispatchQueue.main.async {
+                self.catImageUrl = self.m.catData!.url
                 self.catPhoto.image = image
             }
         }
@@ -72,7 +73,6 @@ class CatEdit: UIViewController {
     
     // MARK - Actions
     @IBAction func updatePhotoPressed(_ sender: Any) {
-        updatedImage = true
         m.catGetImage(cat.breedId)
     }
     
@@ -97,13 +97,8 @@ class CatEdit: UIViewController {
         
         // Create a cat Object
         errorMessage.text = "Attempting to save..."
-    
-        if (m.catData != nil) {
-            catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: m.catData!.url)
-        }
-        else {
-            catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: "https://placekitten.com/300/200")
-        }
+        
+        catUpdated = CatUpdated(_id: cat._id!, ownerName: ownerName.text!, rating: catRating.selectedSegmentIndex + 1, photoUrl: catImageUrl)
         
         // Send the request
         m.catPut(catUpdated!)
